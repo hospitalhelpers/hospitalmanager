@@ -1,10 +1,10 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import Homepage from './components/Homepage'
-import './tailwindstuff.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./tailwindstuff.css";
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <Homepage />
-  </StrictMode>,
-)
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
