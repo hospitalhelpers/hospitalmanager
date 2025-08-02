@@ -5,6 +5,7 @@ import certifi
 import os
 from Medicine import Medicine
 from PatientCase import PatientCase
+from HospitalStructure import HospitalStructure
 from bson import ObjectId
 
 ca = certifi.where()
@@ -70,3 +71,17 @@ def get_case_from_id(id : str):
 def get_all_cases():
     res = db["Cases"].find()
     return res
+
+def add_hospital_structure(floordict : dict, floorstructure : dict = None):
+    try:
+        case = HospitalStructure(
+                Floors=floordict,
+                FloorStructure=floorstructure
+                )
+        
+        res = db["FloorStruct"].insert_one(case.model_dump())
+        print("res: ", res.inserted_id)
+        return res.inserted_id
+    except Exception as e:
+        print(e)
+        return 0
