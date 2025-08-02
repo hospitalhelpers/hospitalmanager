@@ -152,8 +152,10 @@ const StaffDashboard = () => {
                     <ul className="list-group mt-2">
                       {[...editData.symptoms].slice().reverse().map((symptom, idx) => (
                         <li key={idx} className="list-group-item d-flex justify-content-between align-items-center">
-                          <span>{symptom.text}</span>
-                          <small className="text-muted">{symptom.timestamp}</small>
+                          <span className="flex-grow-1">{symptom.text}</span>
+                          <span className="ms-3 text-end" style={{ minWidth: '120px', fontFamily: 'monospace' }}>
+                            <small className="text-muted">{symptom.timestamp}</small>
+                          </span>
                           <button
                             type="button"
                             className="btn btn-sm btn-danger ms-2"
