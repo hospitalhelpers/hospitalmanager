@@ -107,11 +107,15 @@ const StaffDashboard = () => {
                 .map((patient) => (
                   <li
                     key={patient.id}
-                    className={`list-group-item ${selectedPatient.id === patient.id ? "active" : ""} ${priorityColors[patient.priority]}`}
-                    style={{ cursor: "pointer" }}
+                    className={`list-group-item d-flex align-items-center ${priorityColors[patient.priority]}`}
+                    style={{ cursor: "pointer", position: "relative", fontWeight: selectedPatient && selectedPatient.id === patient.id ? "bold" : "normal", fontSize: selectedPatient && selectedPatient.id === patient.id ? "1.08rem" : "1rem" }}
                     onClick={() => handleSelect(patient)}
                   >
-                    {patient.name} - Priority: {patient.priority}
+                    <span>{patient.name}</span>
+                    <span className="ms-2">- {patient.priority}</span>
+                    {selectedPatient && selectedPatient.id === patient.id && (
+                      <span className="badge bg-dark ms-auto" style={{ marginLeft: 'auto' }}>Current</span>
+                    )}
                   </li>
                 ))}
             </ul>
