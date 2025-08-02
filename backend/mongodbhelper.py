@@ -13,16 +13,14 @@ client = MongoClient(ATLAS_URI, server_api=ServerApi('1'), tlsCAFile=ca)
 try:
     client.admin.command('ping')
     print("Pinged your deployment. You successfully connected to MongoDB!")
+
+    medicine = Medicine(
+        medicationID="ibuprofen",
+        dosage="400mg", 
+        prescribedDate="2024-01-16"
+    )
+
+    client["HealthApp"]["Medications"].insert_one(medicine.model_dump())
+
 except Exception as e:
     print(e)
-
-#breakpoint()
-#medicine = Medicine(
-#    medicationID="ibuprofen",
-#    dosage="400mg", 
-#    prescribedDate="2024-01-16"
-#)
-#
-#mongodb_client["Medicines"].insert_one(medicine.model_dump())
-
-
