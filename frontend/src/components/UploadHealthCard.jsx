@@ -10,6 +10,17 @@ export default function UploadHealthCard() {
     function handleOnClick(){
         // send a POST request to backend up send this ID
         console.log("clicked");
+          
+          fetch("http://127.0.0.1:3000/upload_userid", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({userid: value})
+          })
+          .then(response => response.json())
+          .then(result => console.log(result))
+          .catch(error => console.error('Error:', error));
     }
         
 	return (
