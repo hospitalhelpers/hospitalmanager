@@ -18,5 +18,3 @@ def upload_patient_case(userid : str):
                 dbcurs.execute(f"INSERT INTO patient_cases (healthID) VALUES ('{userid}')")
             except (Exception, psycopg2.DatabaseError) as error:
                 print(error)
-        
-    
