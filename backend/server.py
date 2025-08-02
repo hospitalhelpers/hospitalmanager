@@ -11,6 +11,9 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 def index():
     return "hello world"
 
+"""
+curl -X POST -H "Content-Type: application/json" -d '{"name" : "david"}' http://127.0.0.1:3000/upload_userid
+"""
 @app.route('/upload_userid', methods = ['POST'])
 def upload_userid():
     if request.method == 'POST':
@@ -22,6 +25,9 @@ def upload_userid():
     # save this user id to database
     return "please use post"
 
+"""
+curl -X POST -H "Content-Type: application/json" -d '{"medicationID" : "1010011", "dosage" : "20mg"}' http://127.0.0.1:3000/upload_medicine
+"""
 @app.route('/upload_medicine', methods = ['POST'])
 def upload_medicine():
     if request.method == 'POST':
@@ -34,7 +40,9 @@ def upload_medicine():
     # save this user id to database
     return "please use post"
 
-
+"""
+curl -X GET -H "Content-Type: application/json" -d '{"id" : "688e8dc83b3c263913ed0b8d"}' http://127.0.0.1:3000/get_medicine
+"""
 @app.route('/get_medicine', methods = ['GET'])
 def get_medicine():
     if request.method == 'GET':
@@ -43,6 +51,38 @@ def get_medicine():
         if (request.json['id']):
             # upload userid to postgres
             res = mongodbhelper.get_medicine_from_id(request.json['id'])
+            print(res)
+            return res
+    # save this user id to database
+    return "please use post"
+
+
+"""
+curl -X POST -H "Content-Type: application/json" -d '{"patientName" : "daniel", "symptoms" : ["death"]}' http://127.0.0.1:3000/upload_case
+"""
+@app.route('/upload_case', methods = ['POST'])
+def upload_case():
+    if request.method == 'POST':
+        # parse the request as JSON
+        print(request.json)
+        if (request.json['patientName']):
+            # upload userid to postgres
+            res = mongodbhelper.add_case(request.json['patientName'], request.json['symptoms'])
+            return str(res)  # Convert ObjectId to string
+    # save this user id to database
+    return "please use post"
+
+"""
+curl -X GET -H "Content-Type: application/json" -d '{"id" : "688e9659e62ca1a6e511dac3"}' http://127.0.0.1:3000/get_case
+"""
+@app.route('/get_case', methods = ['GET'])
+def get_case():
+    if request.method == 'GET':
+        # parse the request as JSON
+        print(request.json)
+        if (request.json['id']):
+            # upload userid to postgres
+            res = mongodbhelper.get_case_from_id(request.json['id'])
             print(res)
             return res
     # save this user id to database
