@@ -1,5 +1,6 @@
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
+import postgreshelper
 
 app = Flask(__name__) # designates this script as the root apth
 cors = CORS(app) # allow CORS for all domains on all routes.
@@ -14,7 +15,9 @@ def upload_userid():
     if request.method == 'POST':
         # parse the request as JSON
         print(request.json)
-        print(request.json['userid'])
+        if (request.json['userid']):
+            # upload userid to postgres
+            postgreshelper.upload_patient_case(request.json['userid'])
     # save this user id to database
     return "please use post"
 
