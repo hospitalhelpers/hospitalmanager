@@ -14,6 +14,10 @@ def upload_patient_case(healthId : str):
     postgreshelper.upload_patient_case(healthId, res)
 
 def upload_patient_information(healthId , age, name, medication , history):
+    res = postgreshelper.get_patient_information(healthId)
+    if (res):
+        print("alr added")
+        return None
     # create medication url
     medications = []
     histories = []
