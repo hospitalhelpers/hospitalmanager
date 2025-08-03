@@ -39,6 +39,8 @@ const StaffDashboard = () => {
     status: "Checked in"
   });
   const [newSymptomInput, setNewSymptomInput] = useState("");
+  const [showPriorityPopup, setShowPriorityPopup] = useState(false);
+  const [priorityExplanation, setPriorityExplanation] = useState("");
 
   const handleSelect = (patient) => {
     setSelectedPatient(patient);
@@ -109,23 +111,17 @@ const StaffDashboard = () => {
       return;
     }
     
-    const patientToAdd = {
-      ...newPatient,
-      id: Math.max(...patientsState.map(p => p.id)) + 1
+    // Generate default explanation based on priority level
+    const explanations = {
+      "Level 1 - Resuscitation": "Patient requires immediate resuscitation due to life-threatening symptoms. This level is assigned for patients with severe trauma, cardiac arrest, or other critical conditions.",
+      "Level 2 - Emergent": "Patient has emergent conditions requiring immediate medical attention. This level is assigned for patients with severe pain, altered mental status, or other serious symptoms.",
+      "Level 3 - Urgent": "Patient has urgent conditions that require prompt medical care. This level is assigned for patients with moderate pain, fever, or other concerning symptoms.",
+      "Level 4 - Less Urgent": "Patient has less urgent conditions that can wait for medical attention. This level is assigned for patients with minor injuries or stable conditions.",
+      "Level 5 - Non-Urgent": "Patient has non-urgent conditions that can wait for routine medical care. This level is assigned for patients with minor complaints or follow-up visits."
     };
     
-    setPatientsState([...patientsState, patientToAdd]);
-    setNewPatient({
-      name: "",
-      age: "",
-      healthId: "",
-      priority: "Level 5 - Non-Urgent",
-      symptoms: [],
-      status: "Checked in"
-    });
-    setNewSymptomInput("");
-    setShowAddForm(false);
-    alert(`Patient ${patientToAdd.name} added to queue!`);
+    setPriorityExplanation(explanations[newPatient.priority] || "Priority level assigned based on patient symptoms and condition.");
+    setShowPriorityPopup(true);
   };
 
   const handleNewPatientChange = (e) => {
@@ -156,6 +152,32 @@ const StaffDashboard = () => {
       ...prev,
       symptoms: prev.symptoms.filter((_, i) => i !== idx)
     }));
+  };
+
+  const handleConfirmPriority = () => {
+    const patientToAdd = {
+      ...newPatient,
+      id: Math.max(...patientsState.map(p => p.id)) + 1
+    };
+    
+    setPatientsState([...patientsState, patientToAdd]);
+    setNewPatient({
+      name: "",
+      age: "",
+      healthId: "",
+      priority: "Level 5 - Non-Urgent",
+      symptoms: [],
+      status: "Checked in"
+    });
+    setNewSymptomInput("");
+    setShowAddForm(false);
+    setShowPriorityPopup(false);
+    alert(`Patient ${patientToAdd.name} added to queue!`);
+  };
+
+  const handleDenyPriority = () => {
+    setShowPriorityPopup(false);
+    // Keep the form open so staff can modify the priority or symptoms
   };
 
   return (
@@ -394,6 +416,81 @@ const StaffDashboard = () => {
         </div>
       </div>
       <RoomVisualization />
+      
+      {/* Priority Explanation Popup */}
+      {showPriorityPopup && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1000
+        }}>
+          <div className="healthcare-card" style={{
+            maxWidth: '500px',
+            width: '90%',
+            maxHeight: '80vh',
+            overflowY: 'auto'
+          }}>
+            <div className="healthcare-card-header">
+              Priority Level Explanation
+            </div>
+            <div className="healthcare-card-body">
+              <div className="patient-info-item">
+                <h3 style={{ color: 'var(--primary-blue)', marginBottom: '1rem' }}>
+                  {newPatient.priority}
+                </h3>
+                <p style={{ lineHeight: '1.6', marginBottom: '1.5rem' }}>
+                  {priorityExplanation}
+                </p>
+                
+                {newPatient.symptoms.length > 0 && (
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <h4 style={{ color: 'var(--primary-blue)', marginBottom: '0.5rem' }}>Patient Symptoms:</h4>
+                    <ul style={{ margin: 0, paddingLeft: '1.5rem' }}>
+                      {newPatient.symptoms.map((symptom, idx) => (
+                        <li key={idx} style={{ marginBottom: '0.25rem' }}>
+                          {symptom.text} - {symptom.timestamp}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                
+                <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+                  <button 
+                    type="button" 
+                    className="search-button" 
+                    onClick={handleConfirmPriority}
+                    style={{ 
+                      backgroundColor: 'var(--accent-green)',
+                      flex: 1
+                    }}
+                  >
+                    Confirm & Add Patient
+                  </button>
+                  <button 
+                    type="button" 
+                    className="search-button" 
+                    onClick={handleDenyPriority}
+                    style={{ 
+                      backgroundColor: 'var(--medium-gray)',
+                      flex: 1
+                    }}
+                  >
+                    Modify Priority
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
