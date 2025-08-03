@@ -85,6 +85,7 @@ def get_current_cases():
             # get the casestruct
             casestruct = mongodbhelper.get_case_from_id(case[3])
             responsejson[id] = {
+                "id" : id,
                 "healthId" : case[2],
                 "patientName" : casestruct["patientName"],
                 "symptoms" : casestruct["symptoms"],
