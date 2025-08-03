@@ -144,15 +144,15 @@ const StaffDashboard = () => {
   const handleConfirmAdmit = () => {
     setAdmitted(true);
     // Remove patient from queue
-    setPatientsState(patientsState.filter(p => p.id !== editData.id));
-    alert(`Patient ${editData.name} admitted!`);
+    setPatientsState(patientsState.filter(p => p.id !== editData ? editData.id : "something"));
+    alert(`Patient ${editData ? editData.name : "something"} admitted!`);
     // Optionally clear selection if no patients left
     if (patientsState.length === 1) {
       setSelectedPatient(null);
       setEditData({});
       setAdmitted(false);
     } else {
-      const nextPatient = patientsState.find(p => p.id !== editData.id);
+      const nextPatient = patientsState.find(p => p.id !== editData ? editData.id : "something");
       setSelectedPatient(nextPatient);
       setEditData(nextPatient);
       setAdmitted(false);
@@ -399,19 +399,19 @@ const StaffDashboard = () => {
             <form>
               <div className="form-group">
                 <label className="form-label">Name</label>
-                <input type="text" className="form-control" name="name" value={editData.name} onChange={handleChange} />
+                <input type="text" className="form-control" name="name" value={editData ? editData.name : "something"} onChange={handleChange} />
               </div>
               <div className="form-group">
                 <label className="form-label">Age</label>
-                <input type="number" className="form-control" name="age" value={editData.age || ''} onChange={handleChange} placeholder="Enter age" />
+                <input type="number" className="form-control" name="age" value={editData ? editData.age : "something" || ''} onChange={handleChange} placeholder="Enter age" />
               </div>
               <div className="form-group">
                 <label className="form-label">Health ID</label>
-                <input type="text" className="form-control" name="healthId" value={editData.healthId || ''} onChange={handleChange} placeholder="Enter health ID" />
+                <input type="text" className="form-control" name="healthId" value={editData ? editData.healthId : "something" || ''} onChange={handleChange} placeholder="Enter health ID" />
               </div>
               <div className="form-group">
                 <label className="form-label">CTAS Priority</label>
-                <select className="form-control" name="priority" value={editData.priority} onChange={handleChange}>
+                <select className="form-control" name="priority" value={editData ? editData.priority : "something"} onChange={handleChange}>
                   <option>Level 1 - Resuscitation</option>
                   <option>Level 2 - Emergent</option>
                   <option>Level 3 - Urgent</option>
@@ -430,7 +430,7 @@ const StaffDashboard = () => {
                   onKeyDown={handleSymptomInputKeyDown}
                   placeholder="Type symptom and press Enter"
                 />
-                {Array.isArray(editData.symptoms) && (
+                {Array.isArray(editData ? editData.symptoms : "something") && (
                   <div style={{ marginTop: '1rem' }}>
                     {[...editData.symptoms].slice().reverse().map((symptom, idx) => (
                       <div key={idx} className="patient-info-item" style={{ margin: '0.5rem 0' }}>
