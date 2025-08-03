@@ -13,8 +13,20 @@ const PatientDashboard = () => {
       return;
     }
     
-    // Simulate submission process
     setSubmitStatus("Submitting health card ID...");
+    // upload and fetch
+    fetch("http://127.0.0.1:3000/add_patient_case", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({id: healthCardId})
+    })
+    .then(response => response.json())
+    .then(result => console.log(result))
+    .catch(error => console.error('Error:', error));
+    
+    // Simulate submission process
     setTimeout(() => {
       setSubmitStatus("Health card ID submitted successfully!");
       setHealthCardId("");

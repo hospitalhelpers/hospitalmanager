@@ -44,6 +44,12 @@ def get_case_from_id(healthId : str):
     res = postgreshelper.get_patient_case(healthId)
     return mongodbhelper.get_case_from_id(res[3])
 
+def get_patient_existence(healthId : str):
+    res = postgreshelper.get_patient_information(healthId)
+    if (res):
+        return True
+    return False
+
 def get_patient_info(healthId : str):
     ret_dict = dict()
     res = postgreshelper.get_patient_information(healthId)
