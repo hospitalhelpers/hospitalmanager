@@ -41,32 +41,11 @@ const StaffDashboard = () => {
   });
   const [newSymptomInput, setNewSymptomInput] = useState("");
   const [showPriorityPopup, setShowPriorityPopup] = useState(false);
+  const [prevResp, setPrevResp] = useState("")
   const [priorityExplanation, setPriorityExplanation] = useState("");
 
 
   useEffect(() => {
-    // fetch from the backend the json of cases
-//    {
-//      "0": {
-//        "id": 0,
-//        "healthId": "4567890123",
-//        "patientName": "David Thompson",
-//        "symptoms": [],
-//        "status": "waiting",
-//        "priority": 0,
-//        "age": 45
-//      },
-
-//      "1": {
-//        "id": 1,
-//        "healthId": "3456789012",
-//        "patientName": "Emily Rodriguez",
-//        "symptoms": [],
-//        "status": "waiting",
-//        "priority": 0,
-//        "age": 28
-//      }
-//    }
     fetch("http://127.0.0.1:3000/get_current_cases", {
       method: "GET",
       headers: {
@@ -142,13 +121,79 @@ const StaffDashboard = () => {
   };
 
   const handleSave = () => {
-    // Update patient in queue
-    const updatedPatients = patientsState.map((p) =>
-      p.id === editData.id ? { ...editData } : p
-    );
-    setPatientsState(updatedPatients);
-    setSelectedPatient(editData);
-    alert("Patient info updated!");
+    // Create a list of the .text of each of the children objects in symptoms
+    const symptomTexts = editData?.symptoms?.map(symptom => symptom.text);
+    console.log("Symptom texts:", symptomTexts);
+    console.log("Current patient ID:", editData?.id);
+    console.log("Current patient healthId:", editData?.healthId);
+    console.log("Current patient priority:", editData?.priority);
+    console.log("Current patient age:", editData?.age);
+    console.log("==========================");
+    
+    // fetch to the backend
+    fetch("http://127.0.0.1:3000/get_priority", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id : editData.healthId
+      })
+    })
+    .then(response => response.json())
+    .then(result => {
+      console.log("Backend response:", result);
+      console.log("Backend response:", result.answer);
+      setPrevResp(result.answer)
+      
+      // Update the priority based on the response
+      if (result.priority !== undefined) {
+        const priorityLabels = {
+          1: "Level 1 - Resuscitation",
+          2: "Level 2 - Emergent", 
+          3: "Level 3 - Urgent",
+          4: "Level 4 - Less Urgent",
+          5: "Level 5 - Non-Urgent"
+        };
+        
+        const newPriority = priorityLabels[result.priority] || "Level 5 - Non-Urgent";
+        console.log("Updating priority from", editData.priority, "to", newPriority);
+        
+        // Update editData with new priority
+        const updatedEditData = {
+          ...editData,
+          priority: newPriority
+        };
+        setEditData(updatedEditData);
+        
+        // Update patient in queue with new priority
+        const updatedPatients = patientsState.map((p) =>
+          p.id === editData.id ? updatedEditData : p
+        );
+        setPatientsState(updatedPatients);
+        setSelectedPatient(updatedEditData);
+        
+        alert(`Patient info updated! Priority updated to ${newPriority}`);
+      } else {
+        // If no priority update, just save normally
+        const updatedPatients = patientsState.map((p) =>
+          p.id === editData.id ? { ...editData } : p
+        );
+        setPatientsState(updatedPatients);
+        setSelectedPatient(editData);
+        alert("Patient info updated!");
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      // Fallback: save without priority update
+      const updatedPatients = patientsState.map((p) =>
+        p.id === editData.id ? { ...editData } : p
+      );
+      setPatientsState(updatedPatients);
+      setSelectedPatient(editData);
+      alert("Patient info updated! (Priority update failed)");
+    });
   };
 
   const handleConfirmAdmit = () => {
@@ -419,15 +464,15 @@ const StaffDashboard = () => {
               </div>
               <div className="form-group">
                 <label className="form-label">Age</label>
-                <input type="number" className="form-control" name="age" value={editData ? editData.age : "something" || ''} onChange={handleChange} placeholder="Enter age" />
+                <input type="number" className="form-control" name="age" value={editData ? editData.age : ''} onChange={handleChange} placeholder="Enter age" />
               </div>
               <div className="form-group">
                 <label className="form-label">Health ID</label>
-                <input type="text" className="form-control" name="healthId" value={editData ? editData.healthId : "something" || ''} onChange={handleChange} placeholder="Enter health ID" />
+                <input type="text" className="form-control" name="healthId" value={editData ? editData.healthId : ''} onChange={handleChange} placeholder="Enter health ID" />
               </div>
               <div className="form-group">
                 <label className="form-label">CTAS Priority</label>
-                <select className="form-control" name="priority" value={editData ? editData.priority : "something"} onChange={handleChange}>
+                <select className="form-control" name="priority" value={editData ? editData.priority : "Level 5 - Non-Urgent"} onChange={handleChange}>
                   <option>Level 1 - Resuscitation</option>
                   <option>Level 2 - Emergent</option>
                   <option>Level 3 - Urgent</option>
@@ -446,7 +491,7 @@ const StaffDashboard = () => {
                   onKeyDown={handleSymptomInputKeyDown}
                   placeholder="Type symptom and press Enter"
                 />
-                {Array.isArray(editData ? editData.symptoms : "something") && (
+                {Array.isArray(editData ? editData.symptoms : null) && (
                   <div style={{ marginTop: '1rem' }}>
                     {[...editData.symptoms].slice().reverse().map((symptom, idx) => (
                       <div key={idx} className="patient-info-item" style={{ margin: '0.5rem 0' }}>
@@ -468,6 +513,9 @@ const StaffDashboard = () => {
                   </div>
                 )}
               </div>
+            <div>
+              {prevResp}
+            </div>
               <button type="button" className="search-button" onClick={handleSave}>Save Changes</button>
               <div style={{ marginTop: '1rem' }}>
                 <button
