@@ -29,6 +29,15 @@ const StaffDashboard = () => {
   const [editData, setEditData] = useState(selectedPatient);
   const [symptomInput, setSymptomInput] = useState("");
   const [admitted, setAdmitted] = useState(false);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newPatient, setNewPatient] = useState({
+    name: "",
+    age: "",
+    healthId: "",
+    priority: "Level 5 - Non-Urgent",
+    symptoms: [],
+    status: "Checked in"
+  });
 
   const handleSelect = (patient) => {
     setSelectedPatient(patient);
@@ -93,6 +102,38 @@ const StaffDashboard = () => {
     }
   };
 
+  const handleAddNewPatient = () => {
+    if (newPatient.name.trim() === "") {
+      alert("Please enter a patient name");
+      return;
+    }
+    
+    const patientToAdd = {
+      ...newPatient,
+      id: Math.max(...patientsState.map(p => p.id)) + 1
+    };
+    
+    setPatientsState([...patientsState, patientToAdd]);
+    setNewPatient({
+      name: "",
+      age: "",
+      healthId: "",
+      priority: "Level 5 - Non-Urgent",
+      symptoms: [],
+      status: "Checked in"
+    });
+    setShowAddForm(false);
+    alert(`Patient ${patientToAdd.name} added to queue!`);
+  };
+
+  const handleNewPatientChange = (e) => {
+    const { name, value } = e.target;
+    setNewPatient(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
   return (
     <div className="healthcare-container">
       <div className="healthcare-header">
@@ -102,8 +143,84 @@ const StaffDashboard = () => {
       
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '2rem' }}>
         <div className="healthcare-card">
-          <div className="healthcare-card-header">Patient Queue</div>
+          <div className="healthcare-card-header">
+            Patient Queue
+            <button 
+              className="search-button" 
+              style={{ 
+                float: 'right', 
+                width: 'auto', 
+                padding: '0.5rem 1rem', 
+                fontSize: '0.875rem',
+                marginTop: '-0.5rem'
+              }}
+              onClick={() => setShowAddForm(!showAddForm)}
+            >
+              {showAddForm ? 'Cancel' : 'Add New Patient'}
+            </button>
+          </div>
           <div className="healthcare-card-body" style={{ padding: 0 }}>
+            {showAddForm && (
+              <div className="patient-info-item" style={{ margin: '1rem', border: '2px solid var(--primary-blue)' }}>
+                <h3 style={{ color: 'var(--primary-blue)', marginBottom: '1rem' }}>Add New Patient</h3>
+                <div className="form-group">
+                  <label className="form-label">Name *</label>
+                  <input 
+                    type="text" 
+                    className="form-control" 
+                    name="name" 
+                    value={newPatient.name} 
+                    onChange={handleNewPatientChange} 
+                    placeholder="Enter patient name"
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Age</label>
+                  <input 
+                    type="number" 
+                    className="form-control" 
+                    name="age" 
+                    value={newPatient.age} 
+                    onChange={handleNewPatientChange} 
+                    placeholder="Enter age"
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Health ID</label>
+                  <input 
+                    type="text" 
+                    className="form-control" 
+                    name="healthId" 
+                    value={newPatient.healthId} 
+                    onChange={handleNewPatientChange} 
+                    placeholder="Enter health ID"
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Priority</label>
+                  <select 
+                    className="form-control" 
+                    name="priority" 
+                    value={newPatient.priority} 
+                    onChange={handleNewPatientChange}
+                  >
+                    <option>Level 1 - Resuscitation</option>
+                    <option>Level 2 - Emergent</option>
+                    <option>Level 3 - Urgent</option>
+                    <option>Level 4 - Less Urgent</option>
+                    <option>Level 5 - Non-Urgent</option>
+                  </select>
+                </div>
+                <button 
+                  type="button" 
+                  className="search-button" 
+                  onClick={handleAddNewPatient}
+                  style={{ marginTop: '0.5rem' }}
+                >
+                  Add Patient to Queue
+                </button>
+              </div>
+            )}
             <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
               {patientsState
                 .slice() // copy array
