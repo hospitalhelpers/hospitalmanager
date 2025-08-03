@@ -91,6 +91,8 @@ const StaffDashboard = () => {
         patients.push(newjson)
       }
       setPatientsState(patients)
+      setSelectedPatient(patientsState[0]);
+      setEditData(selectedPatient)
     })
     .then(result => console.log(result))
     .catch(error => console.error('Error:', error));
