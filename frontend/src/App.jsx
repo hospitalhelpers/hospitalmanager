@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from "./components/Navbar";
 import PatientDashboard from "./components/PatientDashboard";
 import StaffDashboard from "./components/StaffDashboard";
@@ -9,34 +10,14 @@ function App() {
   const [view, setView] = useState("patient");
 
   return (
-    <>
-      <Navbar />
-      <div className="healthcare-container">
-        <div className="view-buttons">
-          <button 
-            className={`view-button ${view === "patient" ? "active" : "primary"}`} 
-            onClick={() => setView("patient")}
-          >
-            Patient Dashboard
-          </button>
-          <button 
-            className={`view-button ${view === "staff" ? "active" : "primary"}`} 
-            onClick={() => setView("staff")}
-          >
-            Staff Dashboard
-          </button>
-          <button 
-            className={`view-button ${view === "tracker" ? "active" : "primary"}`} 
-            onClick={() => setView("tracker")}
-          >
-            Patient Tracker
-          </button>
-        </div>
-        {view === "patient" && <PatientDashboard />}
-        {view === "staff" && <StaffDashboard />}
-        {view === "tracker" && <PatientTracker />}
-      </div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<PatientDashboard />} />
+        <Route path="/patient" element={<PatientDashboard />} />
+        <Route path="/staff" element={<StaffDashboard />} />
+        <Route path="/patient-tracker" element={<PatientTracker />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
