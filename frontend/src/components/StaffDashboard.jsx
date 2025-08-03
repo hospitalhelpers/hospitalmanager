@@ -186,11 +186,12 @@ const StaffDashboard = () => {
     
     if (newPatient.priority != 1){
       // Gemini may review the case to see if it should be boosted
-      
+
       setPriorityExplanation(explanations[newPatient.priority] || "Priority level assigned based on patient symptoms and condition.");
       setShowPriorityPopup(true);
+    } else {
+      handleConfirmPriority();
     }
-    
   };
 
   const handleNewPatientChange = (e) => {
