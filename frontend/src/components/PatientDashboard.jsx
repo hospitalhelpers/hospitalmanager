@@ -3,33 +3,21 @@ import WaitTimeDisplay from "./WaitTimeDisplay";
 import ProgressReport from "./ProgressReport";
 
 const PatientDashboard = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [uploadStatus, setUploadStatus] = useState("");
+  const [healthCardId, setHealthCardId] = useState("");
+  const [submitStatus, setSubmitStatus] = useState("");
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      if (file.type.startsWith('image/')) {
-        setSelectedFile(file);
-        setUploadStatus("File selected: " + file.name);
-      } else {
-        setUploadStatus("Please select an image file");
-        setSelectedFile(null);
-      }
+  const handleHealthCardSubmit = () => {
+    if (healthCardId.trim() === "") {
+      setSubmitStatus("Please enter your health card ID");
+      return;
     }
-  };
-
-  const handleUpload = () => {
-    if (selectedFile) {
-      // Simulate upload process
-      setUploadStatus("Uploading...");
-      setTimeout(() => {
-        setUploadStatus("Health card uploaded successfully!");
-        setSelectedFile(null);
-      }, 2000);
-    } else {
-      setUploadStatus("Please select a file first");
-    }
+    
+    // Simulate submission process
+    setSubmitStatus("Submitting health card ID...");
+    setTimeout(() => {
+      setSubmitStatus("Health card ID submitted successfully!");
+      setHealthCardId("");
+    }, 1500);
   };
 
   return (
@@ -42,45 +30,32 @@ const PatientDashboard = () => {
       <ProgressReport />
       
       <div className="healthcare-card">
-        <div className="healthcare-card-header">Upload Health Card</div>
+        <div className="healthcare-card-header">Health Card Information</div>
         <div className="healthcare-card-body">
           <div className="form-group">
-            <label className="form-label">Select Health Card Image</label>
+            <label className="form-label">Health Card ID/Number</label>
             <input
-              type="file"
+              type="text"
               className="form-control"
-              accept="image/*"
-              onChange={handleFileChange}
-              style={{ padding: '0.5rem' }}
+              value={healthCardId}
+              onChange={(e) => setHealthCardId(e.target.value)}
+              placeholder="Enter your health card ID or number"
             />
           </div>
-          
-          {selectedFile && (
-            <div className="patient-info-item" style={{ marginTop: '1rem' }}>
-              <div className="info-row">
-                <span className="info-label">Selected File:</span>
-                <span className="info-value">{selectedFile.name}</span>
-              </div>
-              <div className="info-row">
-                <span className="info-label">File Size:</span>
-                <span className="info-value">{(selectedFile.size / 1024).toFixed(2)} KB</span>
-              </div>
-            </div>
-          )}
           
           <button 
             type="button" 
             className="search-button" 
-            onClick={handleUpload}
-            disabled={!selectedFile}
+            onClick={handleHealthCardSubmit}
+            disabled={!healthCardId.trim()}
             style={{ marginTop: '1rem' }}
           >
-            Upload Health Card
+            Submit Health Card ID
           </button>
           
-          {uploadStatus && (
-            <div className={uploadStatus.includes("successfully") ? "success" : uploadStatus.includes("Please") ? "error" : "loading"} style={{ marginTop: '1rem' }}>
-              {uploadStatus}
+          {submitStatus && (
+            <div className={submitStatus.includes("successfully") ? "success" : submitStatus.includes("Please") ? "error" : "loading"} style={{ marginTop: '1rem' }}>
+              {submitStatus}
             </div>
           )}
         </div>
