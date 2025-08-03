@@ -3,8 +3,11 @@ import WaitTimeDisplay from "./WaitTimeDisplay";
 import ProgressReport from "./ProgressReport";
 
 const PatientDashboard = () => (
-  <div className="container">
-    <h2 className="mb-4">Patient Dashboard</h2>
+  <div className="healthcare-container">
+    <div className="healthcare-header">
+      <h1>Patient Dashboard</h1>
+      <p>Monitor your wait time and treatment progress</p>
+    </div>
     <WaitTimeDisplay />
     <ProgressReport />
   </div>

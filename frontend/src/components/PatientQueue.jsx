@@ -23,10 +23,10 @@ const PatientQueue = () => {
   };
 
   return (
-    <div className="card mb-3">
-      <div className="card-header bg-gray-400 text-black">Patient Queue</div>
-      <div className="card-body">
-        <div className="mb-3">
+    <div className="healthcare-card">
+      <div className="healthcare-card-header">Patient Queue</div>
+      <div className="healthcare-card-body">
+        <div className="form-group">
           <label htmlFor="symptomInput" className="form-label">Add Symptom</label>
           <input
             type="text"
@@ -39,22 +39,32 @@ const PatientQueue = () => {
           />
         </div>
         {symptoms.length > 0 && (
-          <ul className="list-group mb-3">
+          <div style={{ marginBottom: '1.5rem' }}>
             {symptoms.map((symptom, idx) => (
-              <li key={idx} className="list-group-item">
-                <div className="d-flex justify-content-between align-items-center">
-                  <span>{symptom.text}</span>
-                  <small className="text-muted">{symptom.timestamp}</small>
+              <div key={idx} className="patient-info-item" style={{ margin: '0.5rem 0' }}>
+                <div className="info-row">
+                  <span className="info-label">{symptom.text}</span>
+                  <span className="info-value">{symptom.timestamp}</span>
                 </div>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         )}
-        <ul className="list-group">
-          <li className="list-group-item">John Doe - Priority: Level 2 - Emergent</li>
-          <li className="list-group-item">Jane Smith - Priority: Level 3 - Emergent</li>
-          <li className="list-group-item">Sam Lee - Priority: Low</li>
-        </ul>
+        <div className="patient-info-item">
+          <h3>Current Queue</h3>
+          <div className="info-row">
+            <span className="info-label">John Doe</span>
+            <span className="status-badge status-waiting">Level 2 - Emergent</span>
+          </div>
+          <div className="info-row">
+            <span className="info-label">Jane Smith</span>
+            <span className="status-badge status-waiting">Level 3 - Urgent</span>
+          </div>
+          <div className="info-row">
+            <span className="info-label">Sam Lee</span>
+            <span className="status-badge status-discharged">Low Priority</span>
+          </div>
+        </div>
       </div>
     </div>
   );

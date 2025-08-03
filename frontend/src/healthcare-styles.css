@@ -1,0 +1,335 @@
+/* Healthcare Application Styles */
+:root {
+  --primary-blue: #2c5aa0;
+  --secondary-blue: #4a90e2;
+  --accent-green: #27ae60;
+  --warning-orange: #f39c12;
+  --danger-red: #e74c3c;
+  --light-gray: #f8f9fa;
+  --medium-gray: #6c757d;
+  --dark-gray: #343a40;
+  --white: #ffffff;
+  --border-color: #dee2e6;
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+  color: var(--dark-gray);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Healthcare Navbar */
+.healthcare-navbar {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+  box-shadow: var(--shadow);
+  padding: 1rem 0;
+}
+
+.healthcare-navbar .navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--white) !important;
+}
+
+.healthcare-navbar .nav-link {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  margin: 0 0.5rem;
+  padding: 0.5rem 1rem !important;
+  border-radius: var(--border-radius);
+}
+
+.healthcare-navbar .nav-link:hover {
+  color: var(--white) !important;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Main Container */
+.healthcare-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Page Header */
+.healthcare-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 2rem 0;
+  background: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+.healthcare-header h1 {
+  color: var(--primary-blue);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.healthcare-header p {
+  color: var(--medium-gray);
+  font-size: 1.1rem;
+}
+
+/* Navigation Buttons */
+.view-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.view-button {
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.view-button.primary {
+  background-color: var(--primary-blue);
+  color: var(--white);
+}
+
+.view-button.primary:hover {
+  background-color: var(--secondary-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(44, 90, 160, 0.3);
+}
+
+.view-button.secondary {
+  background-color: var(--white);
+  color: var(--primary-blue);
+  border: 2px solid var(--primary-blue);
+}
+
+.view-button.secondary:hover {
+  background-color: var(--primary-blue);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+.view-button.active {
+  background-color: var(--accent-green);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+}
+
+/* Cards */
+.healthcare-card {
+  background: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  border: none;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+
+.healthcare-card-header {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+  color: var(--white);
+  padding: 1rem 1.5rem;
+  font-weight: 600;
+  border: none;
+}
+
+.healthcare-card-body {
+  padding: 1.5rem;
+}
+
+/* Patient Tracker Specific Styles */
+.patient-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.patient-info-item {
+  background: var(--white);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  border-left: 4px solid var(--primary-blue);
+}
+
+.patient-info-item h3 {
+  color: var(--primary-blue);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-weight: 600;
+  color: var(--dark-gray);
+}
+
+.info-value {
+  color: var(--medium-gray);
+  text-align: right;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-active {
+  background-color: var(--accent-green);
+  color: var(--white);
+}
+
+.status-waiting {
+  background-color: var(--warning-orange);
+  color: var(--white);
+}
+
+.status-discharged {
+  background-color: var(--medium-gray);
+  color: var(--white);
+}
+
+/* Search Form */
+.search-form {
+  background: var(--white);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+}
+
+.search-form h2 {
+  color: var(--primary-blue);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  font-weight: 600;
+  color: var(--dark-gray);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(44, 90, 160, 0.1);
+}
+
+.search-button {
+  background: var(--primary-blue);
+  color: var(--white);
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.search-button:hover {
+  background: var(--secondary-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(44, 90, 160, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .healthcare-container {
+    padding: 1rem;
+  }
+  
+  .view-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .patient-info-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .info-value {
+    text-align: left;
+  }
+}
+
+/* Loading and Error States */
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: var(--medium-gray);
+}
+
+.error {
+  background: #fee;
+  color: var(--danger-red);
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  border-left: 4px solid var(--danger-red);
+  margin-bottom: 1rem;
+}
+
+.success {
+  background: #efe;
+  color: var(--accent-green);
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  border-left: 4px solid var(--accent-green);
+  margin-bottom: 1rem;
+} 

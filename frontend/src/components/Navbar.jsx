@@ -2,9 +2,9 @@ import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Navbar = () => (
-  <nav className="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+  <nav className="navbar navbar-expand-lg healthcare-navbar">
     <div className="container-fluid">
-      <a className="navbar-brand" href="#">Hospital Manager</a>
+      <a className="navbar-brand" href="#">🏥 Hospital Manager</a>
       <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>
@@ -15,6 +15,9 @@ const Navbar = () => (
           </li>
           <li className="nav-item">
             <a className="nav-link" href="#staff">Staff</a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="#tracker">Patient Tracker</a>
           </li>
           <li className="nav-item">
             <a className="nav-link" href="#ambulance">Ambulance</a>

@@ -16,11 +16,11 @@ const priorityOrder = [
   "Level 5 - Non-Urgent"
 ];
 const priorityColors = {
-  "Level 1 - Resuscitation": "bg-primary text-white", // blue
-  "Level 2 - Emergent": "bg-danger text-white",      // red
-  "Level 3 - Urgent": "bg-warning text-dark",         // yellow
-  "Level 4 - Less Urgent": "bg-success text-white",   // neon green
-  "Level 5 - Non-Urgent": "bg-white text-dark"        // white
+  "Level 1 - Resuscitation": "status-active", // green
+  "Level 2 - Emergent": "status-waiting",      // orange
+  "Level 3 - Urgent": "status-waiting",         // orange
+  "Level 4 - Less Urgent": "status-waiting",   // orange
+  "Level 5 - Non-Urgent": "status-discharged"        // gray
 };
 
 const StaffDashboard = () => {
@@ -94,98 +94,120 @@ const StaffDashboard = () => {
   };
 
   return (
-    <div className="container">
-      <h2 className="mb-4">Staff Dashboard</h2>
-      <div className="row">
-        <div className="col-md-4">
-          <div className="card">
-            <div className="card-header bg-secondary text-white">Patient Queue</div>
-            <ul className="list-group list-group-flush">
+    <div className="healthcare-container">
+      <div className="healthcare-header">
+        <h1>Staff Dashboard</h1>
+        <p>Manage patient queue and treatment information</p>
+      </div>
+      
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '2rem' }}>
+        <div className="healthcare-card">
+          <div className="healthcare-card-header">Patient Queue</div>
+          <div className="healthcare-card-body" style={{ padding: 0 }}>
+            <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
               {patientsState
                 .slice() // copy array
                 .sort((a, b) => priorityOrder.indexOf(a.priority) - priorityOrder.indexOf(b.priority))
                 .map((patient) => (
-                  <li
+                  <div
                     key={patient.id}
-                    className={`list-group-item d-flex align-items-center ${priorityColors[patient.priority]}`}
-                    style={{ cursor: "pointer", position: "relative", fontWeight: selectedPatient && selectedPatient.id === patient.id ? "bold" : "normal", fontSize: selectedPatient && selectedPatient.id === patient.id ? "1.08rem" : "1rem" }}
+                    className={`patient-info-item ${selectedPatient && selectedPatient.id === patient.id ? 'selected' : ''}`}
+                    style={{ 
+                      cursor: "pointer", 
+                      margin: '0.5rem',
+                      border: selectedPatient && selectedPatient.id === patient.id ? '2px solid var(--primary-blue)' : '1px solid var(--border-color)',
+                      fontWeight: selectedPatient && selectedPatient.id === patient.id ? "bold" : "normal"
+                    }}
                     onClick={() => handleSelect(patient)}
                   >
-                    <span>{patient.name}</span>
-                    <span className="ms-2">- {patient.priority}</span>
+                    <div className="info-row">
+                      <span className="info-label">{patient.name}</span>
+                      <span className={`status-badge ${priorityColors[patient.priority]}`}>
+                        {patient.priority}
+                      </span>
+                    </div>
+                    <div className="info-row">
+                      <span className="info-label">Status:</span>
+                      <span className="info-value">{patient.status}</span>
+                    </div>
                     {selectedPatient && selectedPatient.id === patient.id && (
-                      <span className="badge bg-dark ms-auto" style={{ marginLeft: 'auto' }}>Current</span>
+                      <div style={{ textAlign: 'center', marginTop: '0.5rem' }}>
+                        <span className="status-badge status-active">Current</span>
+                      </div>
                     )}
-                  </li>
+                  </div>
                 ))}
-            </ul>
+            </div>
           </div>
         </div>
-        <div className="col-md-8">
-          <div className="card">
-            <div className="card-header bg-secondary text-white">Patient Information</div>
-            <div className="card-body">
-              <form>
-                <div className="mb-3">
-                  <label className="form-label">Name</label>
-                  <input type="text" className="form-control" name="name" value={editData.name} onChange={handleChange} />
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">CTAS Priority</label>
-                  <select className="form-select" name="priority" value={editData.priority} onChange={handleChange}>
-                    <option>Level 1 - Resuscitation</option>
-                    <option>Level 2 - Emergent</option>
-                    <option>Level 3 - Urgent</option>
-                    <option>Level 4 - Less Urgent</option>
-                    <option>Level 5 - Non-Urgent</option>
-                    
-                  </select>
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">Symptoms</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="symptomInput"
-                    value={symptomInput}
-                    onChange={handleSymptomInputChange}
-                    onKeyDown={handleSymptomInputKeyDown}
-                    placeholder="Type symptom and press Enter"
-                  />
-                  {Array.isArray(editData.symptoms) && (
-                    <ul className="list-group mt-2">
-                      {[...editData.symptoms].slice().reverse().map((symptom, idx) => (
-                        <li key={idx} className="list-group-item d-flex justify-content-between align-items-center">
-                          <span className="flex-grow-1">{symptom.text}</span>
-                          <span className="ms-3 text-end" style={{ minWidth: '120px', fontFamily: 'monospace' }}>
-                            <small className="text-muted">{symptom.timestamp}</small>
-                          </span>
+        
+        <div className="healthcare-card">
+          <div className="healthcare-card-header">Patient Information</div>
+          <div className="healthcare-card-body">
+            <form>
+              <div className="form-group">
+                <label className="form-label">Name</label>
+                <input type="text" className="form-control" name="name" value={editData.name} onChange={handleChange} />
+              </div>
+              <div className="form-group">
+                <label className="form-label">CTAS Priority</label>
+                <select className="form-control" name="priority" value={editData.priority} onChange={handleChange}>
+                  <option>Level 1 - Resuscitation</option>
+                  <option>Level 2 - Emergent</option>
+                  <option>Level 3 - Urgent</option>
+                  <option>Level 4 - Less Urgent</option>
+                  <option>Level 5 - Non-Urgent</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label className="form-label">Symptoms</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="symptomInput"
+                  value={symptomInput}
+                  onChange={handleSymptomInputChange}
+                  onKeyDown={handleSymptomInputKeyDown}
+                  placeholder="Type symptom and press Enter"
+                />
+                {Array.isArray(editData.symptoms) && (
+                  <div style={{ marginTop: '1rem' }}>
+                    {[...editData.symptoms].slice().reverse().map((symptom, idx) => (
+                      <div key={idx} className="patient-info-item" style={{ margin: '0.5rem 0' }}>
+                        <div className="info-row">
+                          <span className="info-label">{symptom.text}</span>
                           <button
                             type="button"
-                            className="btn btn-sm btn-danger ms-2"
+                            className="search-button"
+                            style={{ width: 'auto', padding: '0.25rem 0.75rem', fontSize: '0.875rem' }}
                             onClick={() => handleDeleteSymptom(editData.symptoms.length - 1 - idx)}
                           >Delete</button>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-                <button type="button" className="btn btn-primary px-4 py-2 rounded-pill shadow-sm fw-bold" style={{ fontSize: "1.1rem" }} onClick={handleSave}>Save</button>
-                <div className="mb-3 mt-3">
-                  <div className="d-flex align-items-center gap-2">
-                    <button
-                      type="button"
-                      className={`btn px-4 py-2 rounded-pill shadow-sm fw-bold ${admitted ? 'btn-secondary' : 'btn-success'}`}
-                      style={{ fontSize: "1.1rem" }}
-                      onClick={handleConfirmAdmit}
-                      disabled={admitted}
-                    >
-                      <i className="bi bi-check-circle me-2"></i> {admitted ? 'Admitted' : 'Confirm Admission'}
-                    </button>
+                        </div>
+                        <div className="info-row">
+                          <span className="info-label">Time:</span>
+                          <span className="info-value">{symptom.timestamp}</span>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                </div>
-              </form>
-            </div>
+                )}
+              </div>
+              <button type="button" className="search-button" onClick={handleSave}>Save Changes</button>
+              <div style={{ marginTop: '1rem' }}>
+                <button
+                  type="button"
+                  className={`search-button ${admitted ? 'disabled' : ''}`}
+                  style={{ 
+                    backgroundColor: admitted ? 'var(--medium-gray)' : 'var(--accent-green)',
+                    marginTop: '0.5rem'
+                  }}
+                  onClick={handleConfirmAdmit}
+                  disabled={admitted}
+                >
+                  {admitted ? 'Admitted' : 'Confirm Admission'}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

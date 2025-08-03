@@ -1,14 +1,24 @@
 import React from "react";
 
 const ProgressReport = () => (
-  <div className="card mb-3">
-    <div className="card-header bg-secondary text-white">Progress Report</div>
-    <div className="card-body">
-      <ul>
-        <li>Checked in at 10:00 AM</li>
-        <li>Vitals taken at 10:15 AM</li>
-        <li>Waiting for doctor</li>
-      </ul>
+  <div className="healthcare-card">
+    <div className="healthcare-card-header">Treatment Progress</div>
+    <div className="healthcare-card-body">
+      <div className="patient-info-item">
+        <h3>Current Status</h3>
+        <div className="info-row">
+          <span className="info-label">Check-in Time:</span>
+          <span className="info-value">10:00 AM</span>
+        </div>
+        <div className="info-row">
+          <span className="info-label">Vitals Taken:</span>
+          <span className="info-value">10:15 AM</span>
+        </div>
+        <div className="info-row">
+          <span className="info-label">Current Status:</span>
+          <span className="status-badge status-waiting">Waiting for Doctor</span>
+        </div>
+      </div>
     </div>
   </div>
 );
