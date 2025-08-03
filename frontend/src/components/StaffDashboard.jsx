@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PatientQueue from "./PatientQueue";
 import RoomVisualization from "./RoomVisualization";
 import Navbar from "./Navbar";
@@ -42,6 +42,26 @@ const StaffDashboard = () => {
   const [newSymptomInput, setNewSymptomInput] = useState("");
   const [showPriorityPopup, setShowPriorityPopup] = useState(false);
   const [priorityExplanation, setPriorityExplanation] = useState("");
+
+
+  useEffect(() => {
+    // fetch from the backend the json of cases
+    //{"4567890123": {"patientName": "David Thompson", "symptoms": [], "status": "waiting", "priority": 0, "age": 45}, "3456789012": {"patientName": "Emily Rodriguez", "symptoms": [], "status": "waiting", "priority": 0, "age": 28}}
+
+    fetch("https://127.0.0.1:3000/get_current_cases", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({input: ""})
+    })
+    .then(response => {
+      jsonresp = response.json()
+      // we convert this json into a list
+    })
+    .then(result => console.log(result))
+    .catch(error => console.error('Error:', error));
+  }, []);
 
   const handleSelect = (patient) => {
     setSelectedPatient(patient);

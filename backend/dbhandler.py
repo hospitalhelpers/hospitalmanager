@@ -79,17 +79,20 @@ def get_gemini_rag():
 def get_current_cases():
     res = postgreshelper.get_all_cases()
     responsejson = dict()
+    id = 0
     if (res):
         for case in res:
             # get the casestruct
             casestruct = mongodbhelper.get_case_from_id(case[3])
-            responsejson[case[2]] = {
+            responsejson[id] = {
+                "healthId" : case[2],
                 "patientName" : casestruct["patientName"],
                 "symptoms" : casestruct["symptoms"],
                 "status" : casestruct["status"],
                 "priority" : casestruct["priority"],
                 "age" : casestruct["age"]
             }
+            id+=1
         return json.dumps(responsejson)
 
 get_current_cases()
