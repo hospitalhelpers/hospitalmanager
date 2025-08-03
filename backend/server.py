@@ -6,7 +6,12 @@ import langchaingemini
 #import mongodbhelper
 
 app = Flask(__name__) # designates this script as the root apth
-cors = CORS(app) # allow CORS for all domains on all routes.
+CORS(app)
+cors = CORS(app, resources={
+    r"/*":{
+        "origins":"*"
+    }
+})
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route('/')
@@ -144,11 +149,10 @@ def get_priority():
 @app.route('/get_current_cases', methods = ['GET'])
 def get_current_cases():
     if request.method == 'GET':
-        # parse the request as JSON
-        print(request.json)
         # upload userid to postgres
         cases = dbhandler.get_current_cases()
         if cases:
+            print(cases)
             return cases
         return "damn"
     # save this user id to database

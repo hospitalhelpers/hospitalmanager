@@ -68,19 +68,19 @@ const StaffDashboard = () => {
 //        "age": 28
 //      }
 //    }
-    fetch("https://127.0.0.1:3000/get_current_cases", {
+    fetch("http://127.0.0.1:3000/get_current_cases", {
       method: "GET",
       headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({input: ""})
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
     })
     .then(response => {
-      jsonresp = response.json()
+      var jsonresp = response.json()
       // we convert this json into a list
       for (const key in jsonresp) {
         console.log(`${key}: ${jsonresp[key]}`);
-        newjson = {
+        var newjson = {
             id : jsonresp[key].id,
             name : jsonresp[key].patientName,
             priority : jsonresp[key].priority,
@@ -94,7 +94,11 @@ const StaffDashboard = () => {
       setSelectedPatient(patientsState[0]);
       setEditData(selectedPatient)
     })
-    .then(result => console.log(result))
+    .then(result => {
+      console.log(result)
+      console.log("hello")
+    
+    })
     .catch(error => console.error('Error:', error));
   }, []);
 
