@@ -93,13 +93,13 @@ def get_all_hospital():
     return res
 
 def update_case_set_symptoms(caseid : str, symptoms : list):
-    db.updateOne({"caseId" : ObjectId(caseid)}, {"$set" : {"symptoms" : symptoms}})
+    db["Cases"].update_one({"_id" : ObjectId(caseid)}, {"$set" : {"symptoms" : symptoms}})
 
 def update_case_set_status(caseid : str, status : str):
-    db.updateOne({"caseId" : ObjectId(caseid)}, {"$set" : {"status" : status}})
+    db["Cases"].update_one({"_id" : ObjectId(caseid)}, {"$set" : {"status" : status}})
 
 def update_case_set_priority(caseid : str, priority : str):
-    db.updateOne({"caseId" : ObjectId(caseid)}, {"$set" : {"priority" : priority}})
+    db["Cases"].update_one({"_id" : ObjectId(caseid)}, {"$set" : {"priority" : priority}})
 
-
-update_case_set_priority("688e95e31047ff4a1902c131", 20)
+#update_case_set_priority("688e95e31047ff4a1902c131", 23)
+#update_case_set_status("688e95e31047ff4a1902c131", "left")
