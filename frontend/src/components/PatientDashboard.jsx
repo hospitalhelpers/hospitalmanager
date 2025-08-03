@@ -60,7 +60,7 @@ const PatientDashboard = () => {
       </div>
 
       <WaitTimeDisplay />
-      <ProgressReport />
+      {submitStatus && <ProgressReport />}
 
     </div>
   );
