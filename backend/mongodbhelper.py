@@ -91,3 +91,15 @@ def add_hospital_structure(floordict : dict, floorstructure : dict = None):
 def get_all_hospital():
     res = list(db["HospitalStruct"].find())
     return res
+
+def update_case_set_symptoms(caseid : str, symptoms : list):
+    db.updateOne({"caseId" : ObjectId(caseid)}, {"$set" : {"symptoms" : symptoms}})
+
+def update_case_set_status(caseid : str, status : str):
+    db.updateOne({"caseId" : ObjectId(caseid)}, {"$set" : {"status" : status}})
+
+def update_case_set_priority(caseid : str, priority : str):
+    db.updateOne({"caseId" : ObjectId(caseid)}, {"$set" : {"priority" : priority}})
+
+
+update_case_set_priority("688e95e31047ff4a1902c131", 20)

@@ -19,6 +19,8 @@ def upload_patient_information(healthId , age, name, medication , history ):
     res = postgreshelper.upload_patient_information(healthId , age , name , medicine, hist)
     return res
 
+def modify_patient_case(healthId : str, )
+
 upload_patient_case("1011012")
 #upload_patient_information("1011012", 
 #                           20,
