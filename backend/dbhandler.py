@@ -1,4 +1,6 @@
 import mongodbhelper
+import csv
+import json
 import datetime
 import geminihelper
 import postgreshelper
@@ -57,15 +59,14 @@ def get_gemini_rag():
     contents = mongodbhelper.get_all_cases()
     ret_dict = dict()
     for case in contents:
-        breakpoint()
+        ret_dict[str(case['_id'])] = {"patientName" : case['patientName'], "symptoms" : case['symptoms'], "priority" : case['priority']}
 
-    contents = get_patient_info(healthId)
-    f = open("geminiuserinfo.json", 'w')
-    f.write(content)
-    f.close()
+    with open("geminicases.csv", "w", newline="") as f:
+        w = csv.DictWriter(f, ret_dict.keys())
+        w.writeheader()
+        w.writerow(ret_dict)
 
 get_gemini_rag()
-#print(get_patient_info("1011012"))
 
 #upload_patient_information("1011012", 
 #                           20,
