@@ -1,87 +1,37 @@
-import mongodbhelper
+import dbhandler
+from Medicine import Medicine
+from PatientCase import PatientCase
 
-newstruct = {
-    "Floors" : {
-        "Floor1" : {
-            "Room1" : {
-                "Bed1" : None,
-                "Bed2" : None,
-                "Bed3" : None,
-                "Bed4" : None,
-            },
-            "Room2" : {
-                "Bed1" : None,
-                "Bed2" : None,
-                "Bed3" : None,
-                "Bed4" : None,
-            },
-            "Room3" : {
-                "Bed1" : None,
-                "Bed2" : None,
-                "Bed3" : None,
-                "Bed4" : None,
-            },
-            "Room4" : {
-                "Bed1" : None,
-                "Bed2" : None,
-                "Bed3" : None,
-                "Bed4" : None,
-            },
-        },
-        "Floor2" : {
-            "Room1" : {
-                "Bed1" : None,
-                "Bed2" : None,
-                "Bed3" : None,
-                "Bed4" : None,
-            },
-            "Room2" : {
-                "Bed1" : None,
-                "Bed2" : None,
-                "Bed3" : None,
-                "Bed4" : None,
-            },
-            "Room3" : {
-                "Bed1" : None,
-                "Bed2" : None,
-                "Bed3" : None,
-                "Bed4" : None,
-            },
-            "Room4" : {
-                "Bed1" : None,
-                "Bed2" : None,
-                "Bed3" : None,
-                "Bed4" : None,
-            },
-        },
-        "Floor3" : {
-            "Room1" : {
-                "Bed1" : None,
-                "Bed2" : None,
-                "Bed3" : None,
-                "Bed4" : None,
-            },
-            "Room2" : {
-                "Bed1" : None,
-                "Bed2" : None,
-                "Bed3" : None,
-                "Bed4" : None,
-            },
-            "Room3" : {
-                "Bed1" : None,
-                "Bed2" : None,
-                "Bed3" : None,
-                "Bed4" : None,
-            },
-            "Room4" : {
-                "Bed1" : None,
-                "Bed2" : None,
-                "Bed3" : None,
-                "Bed4" : None,
-            },
-        },
-    }
-}
-
-#mongodbhelper.add_hospital_structure(newstruct)
-print(mongodbhelper.get_all_hospital())
+dbhandler.upload_patient_information("5538201346", 
+                           45,
+                           "richard astley", 
+                           [
+                               
+                           Medicine(
+                                medicationID="adderall",
+                                dosage="20mg",
+                                prescribedDate="2023/04/23"
+                            ),
+                               
+                           Medicine(
+                                medicationID="vicodin",
+                                dosage="10mg",
+                                prescribedDate="2022/09/16"
+                            ),
+                            
+                           ],
+                           [
+                            PatientCase(
+                                patientName="richard astley",
+                                symptoms=["coughing", "laughing"],
+                                priority=4,
+                                status="left"
+                            ),
+                            PatientCase(
+                                patientName="richard astley",
+                                symptoms=["bleeding"],
+                                priority=5,
+                                status="waiting"
+                            ),
+                           ]
+                 )

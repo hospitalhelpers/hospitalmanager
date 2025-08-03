@@ -13,14 +13,14 @@ def upload_patient_case(healthId : str):
     res = mongodbhelper.add_case(healthId, age=patientinfo[3])
     postgreshelper.upload_patient_case(healthId, res)
 
-def upload_patient_information(healthId , age, name, medication , history ):
+def upload_patient_information(healthId , age, name, medication , history):
     # create medication url
     medications = []
     histories = []
     for i in medication:
         medications.append(str(mongodbhelper.add_medicine(i.medicationID , i.dosage , i.prescribedDate)))
     for i in history:
-        histories.append(str(mongodbhelper.add_case(i.patientName, i.symptoms)))
+        histories.append(str(mongodbhelper.add_case(i.patientName, i.symptoms, i.status, i.priority, age)))
     res = postgreshelper.upload_patient_information(healthId , age , name , medications, histories)
     return res
 
@@ -67,33 +67,3 @@ def get_gemini_rag():
         w.writerow(ret_dict)
 
 get_gemini_rag()
-
-#upload_patient_information("1011012", 
-#                           20,
-#                           "daniam", 
-#                           [
-#                               
-#                           Medicine(
-#                                medicationID="adderall",
-#                                dosage="20mg",
-#                                prescribedDate="2020"
-#                            ),
-#                               
-#                           Medicine(
-#                                medicationID="vicodin",
-#                                dosage="10mg",
-#                                prescribedDate="2014"
-#                            ),
-#                            
-#                           ],
-#                           [
-#                            PatientCase(
-#                                patientName="daniel cooler",
-#                                symptoms=["coughing", "laughing"],
-#                            ),
-#                            PatientCase(
-#                                patientName="daniel cooler",
-#                                symptoms=["lethargy"],
-#                            ),
-#                           ]
-#                 )
