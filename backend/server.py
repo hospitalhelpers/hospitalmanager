@@ -141,6 +141,18 @@ def get_priority():
     # save this user id to database
     return "please use GET"
 
+@app.route('/get_current_cases', methods = ['GET'])
+def get_current_cases():
+    if request.method == 'GET':
+        # parse the request as JSON
+        print(request.json)
+        # upload userid to postgres
+        cases = dbhandler.get_current_cases()
+        if cases:
+            return cases
+        return "damn"
+    # save this user id to database
+    return "please use GET"
 
 if __name__ == "__main__": # if running this file directly
     app.run(debug=True, port=3000) # run the app

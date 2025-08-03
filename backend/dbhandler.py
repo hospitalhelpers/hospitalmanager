@@ -10,7 +10,7 @@ from PatientCase import PatientCase
 def upload_patient_case(healthId : str):
     patientinfo = postgreshelper.get_patient_information(healthId)
     # get the status 
-    res = mongodbhelper.add_case(healthId, age=patientinfo[3])
+    res = mongodbhelper.add_case(patientinfo[6], age=patientinfo[3])
     postgreshelper.upload_patient_case(healthId, res)
 
 def upload_patient_information(healthId , age, name, medication , history):
@@ -76,4 +76,20 @@ def get_gemini_rag():
         w.writeheader()
         w.writerow(ret_dict)
 
-get_gemini_rag()
+def get_current_cases():
+    res = postgreshelper.get_all_cases()
+    responsejson = dict()
+    if (res):
+        for case in res:
+            # get the casestruct
+            casestruct = mongodbhelper.get_case_from_id(case[3])
+            responsejson[case[2]] = {
+                "patientName" : casestruct["patientName"],
+                "symptoms" : casestruct["symptoms"],
+                "status" : casestruct["status"],
+                "priority" : casestruct["priority"],
+                "age" : casestruct["age"]
+            }
+        return json.dumps(responsejson)
+
+get_current_cases()

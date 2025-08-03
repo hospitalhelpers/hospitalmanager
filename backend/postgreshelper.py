@@ -30,6 +30,17 @@ def get_patient_case(userid : str):
             except (Exception, psycopg2.DatabaseError) as error:
                 print(error)
 
+def get_all_cases():
+    with conn: # assuming we have connection
+        with conn.cursor() as dbcurs:
+            try:
+                dbcurs.execute(f"SELECT * FROM patient_cases")
+                results = dbcurs.fetchall()
+                if (results):
+                    return results
+            except (Exception, psycopg2.DatabaseError) as error:
+                print(error)
+
 def upload_patient_information(userid : str, age : int = 0, name : str = "", current_medication : list = [], history : list = []):
     with conn: # assuming we have connection
         with conn.cursor() as dbcurs:
