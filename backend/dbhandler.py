@@ -19,9 +19,21 @@ def upload_patient_information(healthId , age, name, medication , history ):
     res = postgreshelper.upload_patient_information(healthId , age , name , medicine, hist)
     return res
 
-def modify_patient_case(healthId : str, )
+def update_patient_case_status(healthId : str, newstatus : str):
+    res = postgreshelper.get_patient_case(healthId)
+    mongodbhelper.update_case_set_status(res[3], newstatus)
 
-upload_patient_case("1011012")
+def update_patient_case_priority(healthId : str, priority : int):
+    res = postgreshelper.get_patient_case(healthId)
+    mongodbhelper.update_case_set_priority(res[3], priority)
+
+def update_patient_case_symptoms(healthId : str, symptoms : list):
+    res = postgreshelper.get_patient_case(healthId)
+    mongodbhelper.update_case_set_symptoms(res[3], symptoms)
+
+def get_case_from_id(healthId : str):
+    res = postgreshelper.get_patient_case(healthId)
+    return mongodbhelper.get_case_from_id(res[3])
 #upload_patient_information("1011012", 
 #                           20,
 #                           "daniam", 
