@@ -30,11 +30,11 @@ def get_patient_case(userid : str):
             except (Exception, psycopg2.DatabaseError) as error:
                 print(error)
 
-def upload_patient_information(userid : str, age : int = 0, name : str = "", current_medication : str = "", history : str = ""):
+def upload_patient_information(userid : str, age : int = 0, name : str = "", current_medication : list = [], history : list = []):
     with conn: # assuming we have connection
         with conn.cursor() as dbcurs:
             try:
-                dbcurs.execute(f"INSERT INTO patient_information (healthid, age, name, medications, history) VALUES ('{userid}','{age}','{name}','{current_medication}','{history}')")
+                dbcurs.execute(f"INSERT INTO patient_information (healthid, age, name, medications, history) VALUES ('{userid}','{age}','{name}',ARRAY{current_medication},ARRAY{history})")
             except (Exception, psycopg2.DatabaseError) as error:
                 print(error)
 

@@ -1,9 +1,9 @@
 import mongodbhelper
+import datetime
 import geminihelper
 import postgreshelper
 from Medicine import Medicine
 from PatientCase import PatientCase
-
 
 def upload_patient_case(healthId : str):
     patientinfo = postgreshelper.get_patient_information(healthId)
@@ -13,10 +13,13 @@ def upload_patient_case(healthId : str):
 
 def upload_patient_information(healthId , age, name, medication , history ):
     # create medication url
-    medicine = mongodbhelper.add_medicine(medication.medicationID , medication.dosage , medication.prescribedDate)
-    hist = mongodbhelper.add_case(history.patientName, history.symptoms)
-    # create the history url
-    res = postgreshelper.upload_patient_information(healthId , age , name , medicine, hist)
+    medications = []
+    histories = []
+    for i in medication:
+        medications.append(str(mongodbhelper.add_medicine(i.medicationID , i.dosage , i.prescribedDate)))
+    for i in history:
+        histories.append(str(mongodbhelper.add_case(i.patientName, i.symptoms)))
+    res = postgreshelper.upload_patient_information(healthId , age , name , medications, histories)
     return res
 
 def update_patient_case_status(healthId : str, newstatus : str):
@@ -34,16 +37,50 @@ def update_patient_case_symptoms(healthId : str, symptoms : list):
 def get_case_from_id(healthId : str):
     res = postgreshelper.get_patient_case(healthId)
     return mongodbhelper.get_case_from_id(res[3])
+
+def get_patient_info(healthId : str):
+    ret_dict = dict()
+    res = postgreshelper.get_patient_information(healthId)
+    ret_dict['age'] = res[3]
+    # get medication data
+    ret_dict['medications'] = []
+    ret_dict['cases'] = []
+    for i in res[4]:
+        ret_dict['medications'].append(mongodbhelper.get_medicine_from_id(i))
+    for i in res[5]:
+        ret_dict['cases'].append(mongodbhelper.get_case_from_id(i))
+    ret_dict['date'] = res[1].strftime('%m/%d/%Y')
+    ret_dict['current_case'] = get_case_from_id(healthId)
+    return ret_dict
+
+print(get_patient_info("1011012"))
+
 #upload_patient_information("1011012", 
 #                           20,
 #                           "daniam", 
+#                           [
+#                               
 #                           Medicine(
 #                                medicationID="adderall",
 #                                dosage="20mg",
 #                                prescribedDate="2020"
 #                            ),
+#                               
+#                           Medicine(
+#                                medicationID="vicodin",
+#                                dosage="10mg",
+#                                prescribedDate="2014"
+#                            ),
+#                            
+#                           ],
+#                           [
 #                            PatientCase(
 #                                patientName="daniel cooler",
 #                                symptoms=["coughing", "laughing"],
 #                            ),
+#                            PatientCase(
+#                                patientName="daniel cooler",
+#                                symptoms=["lethargy"],
+#                            ),
+#                           ]
 #                 )
