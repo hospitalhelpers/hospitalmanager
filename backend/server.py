@@ -111,6 +111,19 @@ def update_patient_case_priority():
     # save this user id to database
     return "please use post"
 
+@app.route('/get_patient_data', methods = ['GET'])
+def get_patient_data():
+    if request.method == 'GET':
+        # parse the request as JSON
+        print(request.json)
+        if (request.json['id']):
+            # upload userid to postgres
+            res = dbhandler.get_patient_info(request.json['id'])
+            print(res)
+            return res
+    # save this user id to database
+    return "please use GET"
+
 if __name__ == "__main__": # if running this file directly
     app.run(debug=True, port=3000) # run the app
     #app.run(host="0.0.0.0", debug=True, port=3000) # expose to all ips

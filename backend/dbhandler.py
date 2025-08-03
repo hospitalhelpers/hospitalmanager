@@ -53,7 +53,7 @@ def get_patient_info(healthId : str):
     ret_dict['current_case'] = get_case_from_id(healthId)
     return ret_dict
 
-print(get_patient_info("1011012"))
+#print(get_patient_info("1011012"))
 
 #upload_patient_information("1011012", 
 #                           20,
