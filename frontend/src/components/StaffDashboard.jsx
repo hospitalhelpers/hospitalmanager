@@ -184,8 +184,13 @@ const StaffDashboard = () => {
       "Level 5 - Non-Urgent": "Patient has non-urgent conditions that can wait for routine medical care. This level is assigned for patients with minor complaints or follow-up visits."
     };
     
-    setPriorityExplanation(explanations[newPatient.priority] || "Priority level assigned based on patient symptoms and condition.");
-    setShowPriorityPopup(true);
+    if (newPatient.priority != 1){
+      // Gemini may review the case to see if it should be boosted
+      
+      setPriorityExplanation(explanations[newPatient.priority] || "Priority level assigned based on patient symptoms and condition.");
+      setShowPriorityPopup(true);
+    }
+    
   };
 
   const handleNewPatientChange = (e) => {
