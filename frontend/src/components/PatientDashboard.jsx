@@ -22,15 +22,14 @@ const PatientDashboard = () => {
       },
       body: JSON.stringify({id: healthCardId})
     })
-    .then(response => response.json())
-    .then(result => console.log(result))
-    .catch(error => console.error('Error:', error));
-    
-    // Simulate submission process
-    setTimeout(() => {
+    .then(response => console.log(response))
+    .then(result => {
       setSubmitStatus("Health card ID submitted successfully!");
       setHealthCardId("");
-    }, 1500);
+      console.log(result)
+    })
+    .catch(error => console.error('Error:', error));
+    
   };
 
   return (
