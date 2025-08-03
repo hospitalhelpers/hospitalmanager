@@ -53,6 +53,18 @@ def get_patient_info(healthId : str):
     ret_dict['current_case'] = get_case_from_id(healthId)
     return ret_dict
 
+def get_gemini_rag():
+    contents = mongodbhelper.get_all_cases()
+    ret_dict = dict()
+    for case in contents:
+        breakpoint()
+
+    contents = get_patient_info(healthId)
+    f = open("geminiuserinfo.json", 'w')
+    f.write(content)
+    f.close()
+
+get_gemini_rag()
 #print(get_patient_info("1011012"))
 
 #upload_patient_information("1011012", 
