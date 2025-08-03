@@ -11,13 +11,13 @@ const Navbar = () => (
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav ms-auto">
           <li className="nav-item">
-            <a className="nav-link" href="#patient">Patient</a>
+            <a className="nav-link" href="/patient">Patient</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#staff">Staff</a>
+            <a className="nav-link" href="/staff">Staff</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#tracker">Patient Tracker</a>
+            <a className="nav-link" href="/patient-tracker">Patient Tracker</a>
           </li>
         </ul>
       </div>

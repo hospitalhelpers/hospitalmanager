@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import WaitTimeDisplay from "./WaitTimeDisplay";
 import ProgressReport from "./ProgressReport";
+import Navbar from "./Navbar";
 
 const PatientDashboard = () => {
   const [healthCardId, setHealthCardId] = useState("");
@@ -12,8 +13,20 @@ const PatientDashboard = () => {
       return;
     }
     
-    // Simulate submission process
     setSubmitStatus("Submitting health card ID...");
+    // upload and fetch
+    fetch("http://127.0.0.1:3000/add_patient_case", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({id: healthCardId})
+    })
+    .then(response => response.json())
+    .then(result => console.log(result))
+    .catch(error => console.error('Error:', error));
+    
+    // Simulate submission process
     setTimeout(() => {
       setSubmitStatus("Health card ID submitted successfully!");
       setHealthCardId("");
@@ -21,14 +34,14 @@ const PatientDashboard = () => {
   };
 
   return (
+    <div>
+    <Navbar />
     <div className="healthcare-container">
       <div className="healthcare-header">
         <h1>Patient Dashboard</h1>
         <p>Monitor your wait time and treatment progress</p>
       </div>
-      <WaitTimeDisplay />
-      <ProgressReport />
-      
+
       <div className="healthcare-card">
         <div className="healthcare-card-header">Health Card Information</div>
         <div className="healthcare-card-body">
@@ -60,6 +73,11 @@ const PatientDashboard = () => {
           )}
         </div>
       </div>
+
+      <WaitTimeDisplay />
+      {(submitStatus == "Health card ID submitted successfully!") && <ProgressReport />}
+
+    </div>
     </div>
   );
 };

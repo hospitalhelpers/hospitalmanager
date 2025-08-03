@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PatientQueue from "./PatientQueue";
 import RoomVisualization from "./RoomVisualization";
+import Navbar from "./Navbar";
 
 const patients = [
   { id: 1, name: "John Doe", priority: "Level 1 - Resuscitation", symptoms: "", status: "Waiting for doctor" },
@@ -181,6 +182,8 @@ const StaffDashboard = () => {
   };
 
   return (
+    <div>
+    <Navbar />
     <div className="healthcare-container">
       <div className="healthcare-header">
         <h1>Staff Dashboard</h1>
@@ -300,7 +303,7 @@ const StaffDashboard = () => {
                 </button>
               </div>
             )}
-            <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
+            <div style={{overflowY: 'auto' }}>
               {patientsState
                 .slice() // copy array
                 .sort((a, b) => priorityOrder.indexOf(a.priority) - priorityOrder.indexOf(b.priority))
@@ -328,7 +331,7 @@ const StaffDashboard = () => {
                     </div>
                     {selectedPatient && selectedPatient.id === patient.id && (
                       <div style={{ textAlign: 'center', marginTop: '0.5rem' }}>
-                        <span className="status-badge status-current">Current</span>
+                        <span className="status-badge status-discharged">Current</span>
                       </div>
                     )}
                   </div>
@@ -417,6 +420,7 @@ const StaffDashboard = () => {
       </div>
       <RoomVisualization />
       
+      
       {/* Priority Explanation Popup */}
       {showPriorityPopup && (
         <div style={{
@@ -492,6 +496,7 @@ const StaffDashboard = () => {
         </div>
       )}
     </div>
+  </div>
   );
 };
 
