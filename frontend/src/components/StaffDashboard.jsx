@@ -3,11 +3,12 @@ import PatientQueue from "./PatientQueue";
 import RoomVisualization from "./RoomVisualization";
 import Navbar from "./Navbar";
 
-const patients = [
-  { id: 1, name: "John Doe", priority: "Level 1 - Resuscitation", symptoms: "", status: "Waiting for doctor" },
-  { id: 2, name: "Jane Smith", priority: "Level 3 - Urgent", symptoms: "", status: "Vitals taken" },
-  { id: 3, name: "Sam Lee", priority: "Level 5 - Non-Urgent", symptoms: "", status: "Checked in" },
-];
+//const patients = [
+//  { id: 1, name: "John Doe", priority: "Level 1 - Resuscitation", symptoms: "", status: "Waiting for doctor" },
+//  { id: 2, name: "Jane Smith", priority: "Level 3 - Urgent", symptoms: "", status: "Vitals taken" },
+//  { id: 3, name: "Sam Lee", priority: "Level 5 - Non-Urgent", symptoms: "", status: "Checked in" },
+//];
+var patients = []
 
 const priorityOrder = [
   "Level 1 - Resuscitation",
@@ -46,8 +47,27 @@ const StaffDashboard = () => {
 
   useEffect(() => {
     // fetch from the backend the json of cases
-    //{"4567890123": {"patientName": "David Thompson", "symptoms": [], "status": "waiting", "priority": 0, "age": 45}, "3456789012": {"patientName": "Emily Rodriguez", "symptoms": [], "status": "waiting", "priority": 0, "age": 28}}
+//    {
+//      "0": {
+//        "id": 0,
+//        "healthId": "4567890123",
+//        "patientName": "David Thompson",
+//        "symptoms": [],
+//        "status": "waiting",
+//        "priority": 0,
+//        "age": 45
+//      },
 
+//      "1": {
+//        "id": 1,
+//        "healthId": "3456789012",
+//        "patientName": "Emily Rodriguez",
+//        "symptoms": [],
+//        "status": "waiting",
+//        "priority": 0,
+//        "age": 28
+//      }
+//    }
     fetch("https://127.0.0.1:3000/get_current_cases", {
       method: "GET",
       headers: {
@@ -58,6 +78,19 @@ const StaffDashboard = () => {
     .then(response => {
       jsonresp = response.json()
       // we convert this json into a list
+      for (const key in jsonresp) {
+        console.log(`${key}: ${jsonresp[key]}`);
+        newjson = {
+            id : jsonresp[key].id,
+            name : jsonresp[key].patientName,
+            priority : jsonresp[key].priority,
+            symptoms : jsonresp[key].symptoms,
+            status : jsonresp[key].status,
+            healthId : jsonresp[key].healthId,
+        }
+        patients.push(newjson)
+      }
+      setPatientsState(patients)
     })
     .then(result => console.log(result))
     .catch(error => console.error('Error:', error));
