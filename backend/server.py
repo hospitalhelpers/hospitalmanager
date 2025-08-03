@@ -1,6 +1,7 @@
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
 import dbhandler
+import langchaingemini
 #import postgreshelper
 #import mongodbhelper
 
@@ -123,6 +124,21 @@ def get_patient_data():
             return res
     # save this user id to database
     return "please use GET"
+
+@app.route('/get_priority', methods = ['GET'])
+def get_priority():
+    if request.method == 'GET':
+        # parse the request as JSON
+        print(request.json)
+        if (request.json['id']):
+            # upload userid to postgres
+            dbhandler.get_gemini_rag()
+            res = langchaingemini.get_user_score(dbhandler.get_case_from_id(request.json['id']))
+            print(res)
+            return res
+    # save this user id to database
+    return "please use GET"
+
 
 if __name__ == "__main__": # if running this file directly
     app.run(debug=True, port=3000) # run the app
