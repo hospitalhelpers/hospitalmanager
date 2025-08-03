@@ -40,7 +40,7 @@ def get_medicine_from_id(id : str):
     return returndict
 
 def get_all_medicine():
-    res = db["Medications"].find()
+    res = list(db["Medications"].find())
     return res
 
 def add_case(patientName : str = "daniel", symptoms : list = [], status : str = "waiting", priority : int = 0):
@@ -69,7 +69,7 @@ def get_case_from_id(id : str):
     return returndict
     
 def get_all_cases():
-    res = db["Cases"].find()
+    res = list(db["Cases"].find())
     return res
 
 def add_hospital_structure(floordict : dict, floorstructure : dict = None):
@@ -78,10 +78,13 @@ def add_hospital_structure(floordict : dict, floorstructure : dict = None):
                 Floors=floordict,
                 FloorStructure=floorstructure
                 )
-        
-        res = db["FloorStruct"].insert_one(case.model_dump())
+        res = db["HospitalStruct"].insert_one(case.model_dump())
         print("res: ", res.inserted_id)
         return res.inserted_id
     except Exception as e:
         print(e)
         return 0
+    
+def get_all_hospital():
+    res = list(db["HospitalStruct"].find())
+    return res
