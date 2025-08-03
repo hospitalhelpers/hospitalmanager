@@ -66,10 +66,12 @@ def add_patient_case():
         # parse the request as JSON
         print(request.json)
         if (request.json['id']):
-            # upload userid to postgres
-            res = dbhandler.upload_patient_case(request.json['id'])
-            print(res)
-            return res
+            if dbhandler.get_patient_existence(request.json['id']):
+                # upload userid to postgres
+                res = dbhandler.upload_patient_case(request.json['id'])
+                print(res)
+                return "done"
+            return "does not exist"
     # save this user id to database
     return "please use post"
 
