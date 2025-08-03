@@ -6,6 +6,7 @@ class PatientCase(BaseModel):
     symptoms : Optional[list] = None
     status : Optional[str] = None
     priority : Optional[int] = None
+    age : Optional[int] = None
 
 
     class Config:
@@ -14,6 +15,7 @@ class PatientCase(BaseModel):
                 "patientName": "daniel",
                 "symptoms": [],
                 "status": "waiting",
-                "priority": 1
+                "priority": 1,
+                "age": 20
             }
         }

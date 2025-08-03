@@ -15,7 +15,7 @@ def upload_patient_case(userid : str, mongodbid : str = None):
     with conn: # assuming we have connection
         with conn.cursor() as dbcurs:
             try:
-                dbcurs.execute(f"INSERT INTO patient_cases (healthID, caseURI) VALUES ('{userid}','{mongodbid}')")
+                dbcurs.execute(f"INSERT INTO patient_cases (healthid, caseURI) VALUES ('{userid}','{mongodbid}')")
             except (Exception, psycopg2.DatabaseError) as error:
                 print(error)
 
@@ -23,18 +23,18 @@ def get_patient_case(userid : str):
     with conn: # assuming we have connection
         with conn.cursor() as dbcurs:
             try:
-                dbcurs.execute(f"SELECT * FROM patient_cases where healthID = {userid}")
+                dbcurs.execute(f"SELECT * FROM patient_cases where healthid='{userid}'")
                 results = dbcurs.fetchall()
                 if (results):
                     return results[0]
             except (Exception, psycopg2.DatabaseError) as error:
                 print(error)
 
-def upload_patient_information(userid : str, age : int = 0, name : str = "", current_medication : str = "", history : list = []):
+def upload_patient_information(userid : str, age : int = 0, name : str = "", current_medication : str = "", history : str = ""):
     with conn: # assuming we have connection
         with conn.cursor() as dbcurs:
             try:
-                dbcurs.execute(f"INSERT INTO patient_information (healthID, age, name, medications, history) VALUES ('{userid}','{age}','{name}','{current_medication}','{history}')")
+                dbcurs.execute(f"INSERT INTO patient_information (healthid, age, name, medications, history) VALUES ('{userid}','{age}','{name}','{current_medication}','{history}')")
             except (Exception, psycopg2.DatabaseError) as error:
                 print(error)
 
@@ -42,7 +42,7 @@ def get_patient_information(userid : str):
     with conn: # assuming we have connection
         with conn.cursor() as dbcurs:
             try:
-                dbcurs.execute(f"SELECT * FROM patient_information where healthID = {userid}")
+                dbcurs.execute(f"SELECT * FROM patient_information where healthid='{userid}'")
                 results = dbcurs.fetchall()
                 if (results):
                     return results[0]

@@ -43,13 +43,15 @@ def get_all_medicine():
     res = list(db["Medications"].find())
     return res
 
-def add_case(patientName : str = "daniel", symptoms : list = [], status : str = "waiting", priority : int = 0):
+def add_case(patientName : str = "daniel", symptoms : list = [], status : str = "waiting", priority : int = 0, age : int = 0):
     try:
         case = PatientCase(
                 patientName=patientName,
                 symptoms=symptoms,
                 status=status,
-                priority=priority)
+                priority=priority,
+                age=age
+                )
         
         res = db["Cases"].insert_one(case.model_dump())
         print("res: ", res.inserted_id)
@@ -64,7 +66,8 @@ def get_case_from_id(id : str):
         "patientName": res["patientName"],
         "symptoms": res["symptoms"],
         "status": res["status"],
-        "priority": res["priority"]
+        "priority": res["priority"],
+        "age": res["age"]
     }
     return returndict
     
