@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PatientQueue from "./PatientQueue";
 import RoomVisualization from "./RoomVisualization";
 import Navbar from "./Navbar";
 
@@ -75,9 +74,13 @@ const StaffDashboard = () => {
         'Accept': 'application/json'
       }
     })
-    .then(response => {
-      var jsonresp = response.json()
-      // we convert this json into a list
+    .then(response => response.json())
+    .then(jsonresp => {
+      console.log("Received response:", jsonresp);
+      // Clear the patients array before adding new data
+      patients = [];
+      
+      // Convert the json response into a list
       for (const key in jsonresp) {
         console.log(`${key}: ${jsonresp[key]}`);
         var newjson = {
@@ -87,19 +90,20 @@ const StaffDashboard = () => {
             symptoms : jsonresp[key].symptoms,
             status : jsonresp[key].status,
             healthId : jsonresp[key].healthId,
+            age : jsonresp[key].age
         }
         patients.push(newjson)
       }
-      setPatientsState(patients)
-      setSelectedPatient(patientsState[0]);
-      setEditData(selectedPatient)
+      
+      setPatientsState([...patients]);
+      if (patients.length > 0) {
+        setSelectedPatient(patients[0]);
+        setEditData(patients[0]);
+      }
     })
-    .then(result => {
-      console.log(result)
-      console.log("hello")
-    
-    })
-    .catch(error => console.error('Error:', error));
+    .catch(error => {
+      console.error('Error fetching current cases:', error);
+    });
   }, []);
 
   const handleSelect = (patient) => {
