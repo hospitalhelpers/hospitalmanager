@@ -1,4 +1,6 @@
 import mongodbhelper
+import csv
+import json
 import datetime
 import geminihelper
 import postgreshelper
@@ -11,14 +13,18 @@ def upload_patient_case(healthId : str):
     res = mongodbhelper.add_case(healthId, age=patientinfo[3])
     postgreshelper.upload_patient_case(healthId, res)
 
-def upload_patient_information(healthId , age, name, medication , history ):
+def upload_patient_information(healthId , age, name, medication , history):
+    res = postgreshelper.get_patient_information(healthId)
+    if (res):
+        print("alr added")
+        return None
     # create medication url
     medications = []
     histories = []
     for i in medication:
         medications.append(str(mongodbhelper.add_medicine(i.medicationID , i.dosage , i.prescribedDate)))
     for i in history:
-        histories.append(str(mongodbhelper.add_case(i.patientName, i.symptoms)))
+        histories.append(str(mongodbhelper.add_case(i.patientName, i.symptoms, i.status, i.priority, age)))
     res = postgreshelper.upload_patient_information(healthId , age , name , medications, histories)
     return res
 
@@ -57,42 +63,11 @@ def get_gemini_rag():
     contents = mongodbhelper.get_all_cases()
     ret_dict = dict()
     for case in contents:
-        breakpoint()
+        ret_dict[str(case['_id'])] = {"patientName" : case['patientName'], "symptoms" : case['symptoms'], "priority" : case['priority']}
 
-    contents = get_patient_info(healthId)
-    f = open("geminiuserinfo.json", 'w')
-    f.write(content)
-    f.close()
+    with open("geminicases.csv", "w", newline="") as f:
+        w = csv.DictWriter(f, ret_dict.keys())
+        w.writeheader()
+        w.writerow(ret_dict)
 
 get_gemini_rag()
-#print(get_patient_info("1011012"))
-
-#upload_patient_information("1011012", 
-#                           20,
-#                           "daniam", 
-#                           [
-#                               
-#                           Medicine(
-#                                medicationID="adderall",
-#                                dosage="20mg",
-#                                prescribedDate="2020"
-#                            ),
-#                               
-#                           Medicine(
-#                                medicationID="vicodin",
-#                                dosage="10mg",
-#                                prescribedDate="2014"
-#                            ),
-#                            
-#                           ],
-#                           [
-#                            PatientCase(
-#                                patientName="daniel cooler",
-#                                symptoms=["coughing", "laughing"],
-#                            ),
-#                            PatientCase(
-#                                patientName="daniel cooler",
-#                                symptoms=["lethargy"],
-#                            ),
-#                           ]
-#                 )
