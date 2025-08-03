@@ -16,11 +16,11 @@ const priorityOrder = [
   "Level 5 - Non-Urgent"
 ];
 const priorityColors = {
-  "Level 1 - Resuscitation": "status-active", // green
-  "Level 2 - Emergent": "status-waiting",      // orange
-  "Level 3 - Urgent": "status-waiting",         // orange
-  "Level 4 - Less Urgent": "status-waiting",   // orange
-  "Level 5 - Non-Urgent": "status-discharged"        // gray
+  "Level 1 - Resuscitation": "status-blue", // blue
+  "Level 2 - Emergent": "status-red",      // red
+  "Level 3 - Urgent": "status-yellow",         // yellow
+  "Level 4 - Less Urgent": "status-green",   // green
+  "Level 5 - Non-Urgent": "status-white"        // white
 };
 
 const StaffDashboard = () => {

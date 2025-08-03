@@ -224,6 +224,32 @@ body {
   color: var(--white);
 }
 
+.status-blue {
+  background-color: var(--primary-blue);
+  color: var(--white);
+}
+
+.status-red {
+  background-color: var(--danger-red);
+  color: var(--white);
+}
+
+.status-yellow {
+  background-color: var(--warning-orange);
+  color: var(--dark-gray);
+}
+
+.status-green {
+  background-color: var(--accent-green);
+  color: var(--white);
+}
+
+.status-white {
+  background-color: var(--white);
+  color: var(--dark-gray);
+  border: 1px solid var(--border-color);
+}
+
 /* Search Form */
 .search-form {
   background: var(--white);
