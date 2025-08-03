@@ -38,6 +38,7 @@ const StaffDashboard = () => {
     symptoms: [],
     status: "Checked in"
   });
+  const [newSymptomInput, setNewSymptomInput] = useState("");
 
   const handleSelect = (patient) => {
     setSelectedPatient(patient);
@@ -122,6 +123,7 @@ const StaffDashboard = () => {
       symptoms: [],
       status: "Checked in"
     });
+    setNewSymptomInput("");
     setShowAddForm(false);
     alert(`Patient ${patientToAdd.name} added to queue!`);
   };
@@ -131,6 +133,28 @@ const StaffDashboard = () => {
     setNewPatient(prev => ({
       ...prev,
       [name]: value
+    }));
+  };
+
+  const handleNewSymptomInputChange = (e) => {
+    setNewSymptomInput(e.target.value);
+  };
+
+  const handleNewSymptomInputKeyDown = (e) => {
+    if (e.key === "Enter" && newSymptomInput.trim() !== "") {
+      e.preventDefault();
+      setNewPatient(prev => ({
+        ...prev,
+        symptoms: [...prev.symptoms, { text: newSymptomInput.trim(), timestamp: new Date().toLocaleString() }]
+      }));
+      setNewSymptomInput("");
+    }
+  };
+
+  const handleDeleteNewSymptom = (idx) => {
+    setNewPatient(prev => ({
+      ...prev,
+      symptoms: prev.symptoms.filter((_, i) => i !== idx)
     }));
   };
 
@@ -210,6 +234,39 @@ const StaffDashboard = () => {
                     <option>Level 4 - Less Urgent</option>
                     <option>Level 5 - Non-Urgent</option>
                   </select>
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Symptoms</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="symptomInput"
+                    value={newSymptomInput}
+                    onChange={handleNewSymptomInputChange}
+                    onKeyDown={handleNewSymptomInputKeyDown}
+                    placeholder="Type symptom and press Enter"
+                  />
+                  {newPatient.symptoms.length > 0 && (
+                    <div style={{ marginTop: '1rem' }}>
+                      {newPatient.symptoms.map((symptom, idx) => (
+                        <div key={idx} className="patient-info-item" style={{ margin: '0.5rem 0' }}>
+                          <div className="info-row">
+                            <span className="info-label">{symptom.text}</span>
+                            <button
+                              type="button"
+                              className="search-button"
+                              style={{ width: 'auto', padding: '0.25rem 0.75rem', fontSize: '0.875rem' }}
+                              onClick={() => handleDeleteNewSymptom(idx)}
+                            >Delete</button>
+                          </div>
+                          <div className="info-row">
+                            <span className="info-label">Time:</span>
+                            <span className="info-value">{symptom.timestamp}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <button 
                   type="button" 
