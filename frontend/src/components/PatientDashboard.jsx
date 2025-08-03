@@ -26,9 +26,7 @@ const PatientDashboard = () => {
         <h1>Patient Dashboard</h1>
         <p>Monitor your wait time and treatment progress</p>
       </div>
-      <WaitTimeDisplay />
-      <ProgressReport />
-      
+
       <div className="healthcare-card">
         <div className="healthcare-card-header">Health Card Information</div>
         <div className="healthcare-card-body">
@@ -60,6 +58,10 @@ const PatientDashboard = () => {
           )}
         </div>
       </div>
+
+      <WaitTimeDisplay />
+      <ProgressReport />
+
     </div>
   );
 };

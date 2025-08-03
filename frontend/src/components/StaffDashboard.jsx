@@ -300,7 +300,7 @@ const StaffDashboard = () => {
                 </button>
               </div>
             )}
-            <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
+            <div style={{overflowY: 'auto' }}>
               {patientsState
                 .slice() // copy array
                 .sort((a, b) => priorityOrder.indexOf(a.priority) - priorityOrder.indexOf(b.priority))
@@ -328,7 +328,7 @@ const StaffDashboard = () => {
                     </div>
                     {selectedPatient && selectedPatient.id === patient.id && (
                       <div style={{ textAlign: 'center', marginTop: '0.5rem' }}>
-                        <span className="status-badge status-current">Current</span>
+                        <span className="status-badge status-discharged">Current</span>
                       </div>
                     )}
                   </div>
