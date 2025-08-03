@@ -16,7 +16,7 @@ const ProgressReport = () => (
         </div>
         <div className="info-row">
           <span className="info-label">Current Status:</span>
-          <span className="status-badge status-waiting">Waiting for Doctor</span>
+          <span className="status-badge status-waiting">Waiting for Triage</span>
         </div>
       </div>
     </div>

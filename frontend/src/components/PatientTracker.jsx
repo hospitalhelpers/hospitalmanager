@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Navbar from "./Navbar";
 
 const PatientTracker = () => {
   const [searchData, setSearchData] = useState({
@@ -98,6 +99,8 @@ const PatientTracker = () => {
   };
 
   return (
+    <div>
+    <Navbar />
     <div className="healthcare-container">
       <div className="healthcare-header">
         <h1>Patient Tracker</h1>
@@ -235,6 +238,7 @@ const PatientTracker = () => {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 };

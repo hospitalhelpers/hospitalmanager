@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import WaitTimeDisplay from "./WaitTimeDisplay";
 import ProgressReport from "./ProgressReport";
+import Navbar from "./Navbar";
 
 const PatientDashboard = () => {
   const [healthCardId, setHealthCardId] = useState("");
@@ -21,6 +22,8 @@ const PatientDashboard = () => {
   };
 
   return (
+    <div>
+    <Navbar />
     <div className="healthcare-container">
       <div className="healthcare-header">
         <h1>Patient Dashboard</h1>
@@ -62,6 +65,7 @@ const PatientDashboard = () => {
       <WaitTimeDisplay />
       {submitStatus && <ProgressReport />}
 
+    </div>
     </div>
   );
 };
