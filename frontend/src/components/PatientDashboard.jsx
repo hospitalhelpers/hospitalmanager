@@ -30,7 +30,7 @@ const PatientDashboard = () => {
     setTimeout(() => {
       setSubmitStatus("Health card ID submitted successfully!");
       setHealthCardId("");
-    }, 500);
+    }, 1500);
   };
 
   return (
@@ -75,7 +75,7 @@ const PatientDashboard = () => {
       </div>
 
       <WaitTimeDisplay />
-      {submitStatus && <ProgressReport />}
+      {(submitStatus == "Health card ID submitted successfully!") && <ProgressReport />}
 
     </div>
     </div>
