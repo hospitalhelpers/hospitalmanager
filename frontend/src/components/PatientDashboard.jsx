@@ -17,7 +17,7 @@ const PatientDashboard = () => {
     setTimeout(() => {
       setSubmitStatus("Health card ID submitted successfully!");
       setHealthCardId("");
-    }, 1500);
+    }, 500);
   };
 
   return (

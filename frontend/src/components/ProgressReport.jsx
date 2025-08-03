@@ -8,11 +8,11 @@ const ProgressReport = () => (
         <h3>Current Status</h3>
         <div className="info-row">
           <span className="info-label">Check-in Time:</span>
-          <span className="info-value">10:00 AM</span>
+          <span className="info-value">{Date()}</span>
         </div>
         <div className="info-row">
           <span className="info-label">Vitals Taken:</span>
-          <span className="info-value">10:15 AM</span>
+          <span className="info-value">{""}</span>
         </div>
         <div className="info-row">
           <span className="info-label">Current Status:</span>
