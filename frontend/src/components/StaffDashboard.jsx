@@ -132,7 +132,7 @@ const StaffDashboard = () => {
                     </div>
                     {selectedPatient && selectedPatient.id === patient.id && (
                       <div style={{ textAlign: 'center', marginTop: '0.5rem' }}>
-                        <span className="status-badge status-active">Current</span>
+                        <span className="status-badge status-current">Current</span>
                       </div>
                     )}
                   </div>
@@ -148,6 +148,14 @@ const StaffDashboard = () => {
               <div className="form-group">
                 <label className="form-label">Name</label>
                 <input type="text" className="form-control" name="name" value={editData.name} onChange={handleChange} />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Age</label>
+                <input type="number" className="form-control" name="age" value={editData.age || ''} onChange={handleChange} placeholder="Enter age" />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Health ID</label>
+                <input type="text" className="form-control" name="healthId" value={editData.healthId || ''} onChange={handleChange} placeholder="Enter health ID" />
               </div>
               <div className="form-group">
                 <label className="form-label">CTAS Priority</label>

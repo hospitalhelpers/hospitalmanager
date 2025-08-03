@@ -250,6 +250,11 @@ body {
   border: 1px solid var(--border-color);
 }
 
+.status-current {
+  background-color: var(--dark-gray);
+  color: var(--white);
+}
+
 /* Search Form */
 .search-form {
   background: var(--white);
